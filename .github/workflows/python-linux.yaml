@@ -1,0 +1,142 @@
+name: Images based on many/musllinux
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '38 08 13 * *'
+
+jobs:
+  fftw:
+    name: Build FFTW library
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ["aarch64", "i686", "ppc64le", "x86_64"]
+        platform: ["manylinux", "musllinux"]
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Build and push
+        run: ./build.py --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }}
+
+  fftw-manifest:
+    needs: [ fftw ]
+    name: Bind FFTW images into a single one
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ "manylinux", "musllinux" ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Create and push
+        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=fftw
+
+  gsl:
+    name: Build GSL library
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ["aarch64", "i686", "ppc64le", "x86_64"]
+        platform: ["manylinux"]
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Build and push
+        run: ./build.py --platform=${{ matrix.platform }} gsl --arch=${{ matrix.arch }}
+
+  gsl-manifest:
+    needs: [ gsl ]
+    name: Bind GSL images into a single one
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ "manylinux" ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Create and push
+        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=gsl
+
+  latest:
+    needs: [ fftw-manifest, gsl-manifest ]
+    name: Build base images
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ "aarch64", "i686", "ppc64le", "x86_64" ]
+        platform: [ "manylinux", "musllinux" ]
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Build and push
+        run: ./build.py --platform=${{ matrix.platform }} latest --arch=${{ matrix.arch }}
+
+  latest-manifest:
+    needs: [ latest ]
+    name: Build latest images into a single manifest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python-linux
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ "manylinux", "musllinux" ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Create and push
+        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=latest

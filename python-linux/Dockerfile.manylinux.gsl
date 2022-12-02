@@ -1,0 +1,11 @@
+ARG ARCH
+FROM quay.io/pypa/manylinux2014_${ARCH}
+
+ARG GSL_VERSION="2.7.1"
+ADD https://mirror.ibcp.fr/pub/gnu/gsl/gsl-${GSL_VERSION}.tar.gz /gsl-${GSL_VERSION}.tar.gz
+
+RUN tar -xzvf gsl-${GSL_VERSION}.tar.gz \
+    && cd gsl-${GSL_VERSION} \
+    && ./configure --with-pic --enable-shared=no \
+    && make -j$(nproc) \
+    && make install

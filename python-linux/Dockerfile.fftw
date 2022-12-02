@@ -1,0 +1,17 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG FFTW_VERSION="3.3.10"
+ARG FFTW_SINGLE_CONF_FLAGS=""
+ARG FFTW_DOUBLE_CONF_FLAGS=""
+
+ADD https://fftw.org/fftw-${FFTW_VERSION}.tar.gz /fftw-${FFTW_VERSION}.tar.gz
+
+RUN tar -xzvf fftw-${FFTW_VERSION}.tar.gz \
+    && cd fftw-${FFTW_VERSION} \
+    && ./configure --disable-doc --disable-shared --with-pic --enable-static --enable-single ${FFTW_SINGLE_CONF_FLAGS} \
+    && make -j$(nproc) \
+    && make install \
+    && ./configure --disable-doc --disable-shared --with-pic --enable-static ${FFTW_DOUBLE_CONF_FLAGS} \
+    && make -j$(nproc) \
+    && make install
