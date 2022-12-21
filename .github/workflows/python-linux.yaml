@@ -7,13 +7,19 @@ on:
   schedule:
     - cron: '38 08 13 * *'
 
+
+concurrency:
+  group: "python-linux"
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: ./python-linux
+
 jobs:
   fftw:
     name: Build FFTW library
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
@@ -36,9 +42,6 @@ jobs:
     needs: [ fftw ]
     name: Bind FFTW images into a single one
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
@@ -55,9 +58,6 @@ jobs:
   gsl:
     name: Build GSL library
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
@@ -80,9 +80,6 @@ jobs:
     needs: [ gsl ]
     name: Bind GSL images into a single one
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
@@ -100,9 +97,6 @@ jobs:
     needs: [ fftw-manifest, gsl-manifest ]
     name: Build base images
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
@@ -125,9 +119,6 @@ jobs:
     needs: [ latest ]
     name: Build latest images into a single manifest
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./python-linux
     strategy:
       fail-fast: false
       matrix:
