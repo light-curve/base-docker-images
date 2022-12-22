@@ -25,6 +25,10 @@ jobs:
       matrix:
         arch: ["aarch64", "i686", "ppc64le", "x86_64"]
         platform: ["manylinux", "musllinux"]
+        exclude:
+          # No Rust toolchain
+          - arch: ppc64le
+            platform: musllinux
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -102,6 +106,10 @@ jobs:
       matrix:
         arch: [ "aarch64", "i686", "ppc64le", "x86_64" ]
         platform: [ "manylinux", "musllinux" ]
+        exclude:
+          # No Rust toolchain
+          - arch: ppc64le
+            platform: musllinux
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

@@ -137,7 +137,7 @@ def latest(args):
 
 def manifest(args):
     manifest_image = multiarch_image_with_tag(args.platform, args.tag)
-    arch_images = [image_with_arch_and_tag(args.platform, arch, args.tag) for arch in ARCHS]
+    arch_images = [image_with_arch_and_tag(args.platform, arch, args.tag) for arch in PLATFORMS[args.platform].archs]
     amends = list(chain.from_iterable(zip(repeat("--amend"), arch_images)))
     echo_and_call(
         [
@@ -192,14 +192,18 @@ ARCHS = {
 @dataclasses.dataclass(kw_only=True)
 class Platform:
     version: str
+    archs: list[str]
 
 
 PLATFORMS = {
     'manylinux': Platform(
         version="2014",
+        archs=["aarch64", "i686", "ppc64le", "x86_64"],
     ),
     'musllinux': Platform(
         version="_1_1",
+        # rustup cannot install the Rust toolchain for PPC64le and MUSL
+        archs=["aarch64", "i686", "x86_64"],
     ),
 }
 
