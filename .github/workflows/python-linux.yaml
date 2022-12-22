@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: ["aarch64", "i686", "ppc64le", "x86_64"]
+        arch: ["aarch64", "ppc64le", "x86_64"]
         platform: ["manylinux", "musllinux"]
         exclude:
           # No Rust toolchain
@@ -65,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: ["aarch64", "i686", "ppc64le", "x86_64"]
+        arch: ["aarch64", "ppc64le", "x86_64"]
         platform: ["manylinux"]
     steps:
       - name: Set up QEMU
@@ -104,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [ "aarch64", "i686", "ppc64le", "x86_64" ]
+        arch: [ "aarch64", "ppc64le", "x86_64" ]
         platform: [ "manylinux", "musllinux" ]
         exclude:
           # No Rust toolchain

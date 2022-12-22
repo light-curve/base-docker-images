@@ -170,6 +170,7 @@ ARCHS = {
         fftw_single_conf_flags='--enable-neon',
         fftw_double_conf_flags='--enable-neon',
     ),
+    # We actually don't support it anymore
     'i686': Arch(
         docker_platform="linux/386",
         fftw_single_conf_flags='--enable-sse --enable-sse2',
@@ -198,12 +199,12 @@ class Platform:
 PLATFORMS = {
     'manylinux': Platform(
         version="2014",
-        archs=["aarch64", "i686", "ppc64le", "x86_64"],
+        archs=["aarch64", "ppc64le", "x86_64"],
     ),
     'musllinux': Platform(
         version="_1_1",
         # rustup cannot install the Rust toolchain for PPC64le and MUSL
-        archs=["aarch64", "i686", "x86_64"],
+        archs=["aarch64", "x86_64"],
     ),
 }
 
