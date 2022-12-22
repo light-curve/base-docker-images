@@ -3,6 +3,7 @@ FROM quay.io/pypa/manylinux2014_${ARCH}
 
 # Fixes OOM problems with git in Qemu
 ENV CARGO_NET_GIT_FETCH_WITH_CLI="true"
+ENV PATH="${PATH}:/root/.cargo/bin"
 
 # Install useful dependencies
 RUN yum install -y openssl-devel
