@@ -9,7 +9,7 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-  - package-ecosystem: "cargo"
+  - package-ecosystem: "pip"
     directory: "/python-linux"
     schedule:
       interval: "monthly"
