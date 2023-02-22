@@ -12,6 +12,13 @@ RUN yum install -y openssl-devel
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y \
     && cargo install light-curve-feature || echo "crates.io updated"
 
+# Add Ceres and its dependencies
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /usr/local/lib64/libceres* /usr/local/lib/
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /usr/local/include/ceres /usr/local/include/ceres
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /usr/local/include/eigen3 /usr/local/include/eigen3
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /usr/local/include/glog /usr/local/include/glog
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /usr/local/include/gflags /usr/local/include/gflags
+
 # Add GSL
 COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:gsl /usr/local/lib/libgsl* /usr/local/lib/
 COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:gsl /usr/local/lib/pkgconfig/gsl.pc /usr/local/lib/pkgconfig/

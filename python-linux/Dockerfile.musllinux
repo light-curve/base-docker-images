@@ -12,6 +12,13 @@ RUN apk add gsl-dev openssl-dev
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y \
     && cargo install light-curve-feature || echo "crates.io updated"
 
+# Add Ceres and its dependencies
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /usr/local/lib/libceres* /usr/local/lib/
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /usr/local/include/ceres /usr/local/include/ceres
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /usr/local/include/eigen3 /usr/local/include/eigen3
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /usr/local/include/glog /usr/local/include/glog
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /usr/local/include/gflags /usr/local/include/gflags
+
 # Add FFTW
 COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:fftw /usr/local/lib/libfftw* /usr/local/lib/
 COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:fftw /usr/local/lib/pkgconfig/fftw* /usr/local/lib/pkgconfig/
