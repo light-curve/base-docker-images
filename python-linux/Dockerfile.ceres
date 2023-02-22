@@ -60,6 +60,5 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
       -DBUILD_BENCHMARKS=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       -DBUILD_EXAMPLES=OFF \
-      -DLIB_SUFFIX="" \
     && make -j$(nproc) \
     && make install \
