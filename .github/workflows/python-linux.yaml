@@ -140,7 +140,7 @@ jobs:
         run: ./build.py --platform=${{ matrix.platform }} manifest --tag=gsl
 
   latest:
-    needs: [ fftw-manifest, gsl-manifest ]
+    needs: [ ceres-manifest, fftw-manifest, gsl-manifest ]
     name: Build base images
     runs-on: ubuntu-latest
     strategy:
