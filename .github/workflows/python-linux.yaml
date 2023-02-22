@@ -17,6 +17,48 @@ defaults:
     working-directory: ./python-linux
 
 jobs:
+  ceres:
+    name: Build Ceres Solver library
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ "aarch64", "ppc64le", "x86_64" ]
+        platform: [ "manylinux", "musllinux" ]
+        exclude:
+          # No Rust toolchain
+          - arch: ppc64le
+            platform: musllinux
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Build and push
+        run: ./build.py --platform=${{ matrix.platform }} ceres --arch=${{ matrix.arch }}
+
+  ceres-manifest:
+    needs: [ ceres ]
+    name: Bind Ceres Solver images into a single one
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ "manylinux", "musllinux" ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to registry
+        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install deps
+        run: python3 -mpip install -r requirements.txt
+      - name: Create and push
+        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=ceres
+
   fftw:
     name: Build FFTW library
     runs-on: ubuntu-latest

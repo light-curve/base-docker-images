@@ -90,6 +90,19 @@ def build(args, *, dockerfile, tag, extra_cmd_args):
     )
 
 
+def ceres(args):
+    arch_name = args.arch
+    build(
+        args,
+        dockerfile="Dockerfile.ceres",
+        tag="ceres",
+        extra_cmd_args=[
+            "--build-arg",
+            f"BASE_IMAGE={pypa_image(args.platform, arch_name)}",
+        ],
+    )
+
+
 def fftw(args):
     arch_name, arch = args.arch, ARCHS[args.arch]
     build(
@@ -209,7 +222,7 @@ PLATFORMS = {
 }
 
 
-TAGS = dict(fftw=fftw, gsl=gsl, latest=latest)
+TAGS = dict(ceres=ceres, fftw=fftw, gsl=gsl, latest=latest)
 
 
 def main():
