@@ -1,0 +1,10 @@
+prefix=/opt/light-curve
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: Ceres Solver
+Description: A large scale non-linear optimization library
+Version: $CERES_VERSION
+Libs: -L${libdir} -lceres
+Cflags: -I${includedir}
+Requires: libglog eigen3

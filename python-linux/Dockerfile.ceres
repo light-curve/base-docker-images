@@ -1,36 +1,24 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ARG GFLAGS_VERSION="2.2.2"
 ARG GLOG_VERSION="0.6.0"
 ARG EIGEN_VERSION="3.4.0"
 ARG CERES_VERSION="2.1.0"
 
-ADD https://github.com/gflags/gflags/archive/refs/tags/v${GFLAGS_VERSION}.tar.gz /gflags-${GFLAGS_VERSION}.tar.gz
 ADD https://github.com/google/glog/archive/refs/tags/v${GLOG_VERSION}.tar.gz /glog-${GLOG_VERSION}.tar.gz
 ADD https://gitlab.com/libeigen/eigen/-/archive/${EIGEN_VERSION}/eigen-${EIGEN_VERSION}.tar.gz /eigen-${EIGEN_VERSION}.tar.gz
 ADD https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz /ceres-solver-${CERES_VERSION}.tar.gz
-
-RUN tar -xzvf gflags-${GFLAGS_VERSION}.tar.gz \
-    && cd gflags-${GFLAGS_VERSION} \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-      -DGFLAGS_BUILD_SHARED_LIBS=OFF \
-      -DGFLAGS_BUILD_STATIC_LIBS=ON \
-      -DGFLAGS_BUILD_TESTING=OFF \
-      -DGFLAGS_BUILD_PACKAGING=OFF \
-      -DINSTALL_HEADERS=ON \
-    && make -j$(nproc) \
-    && make install
 
 RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
     && cd glog-${GLOG_VERSION} \
     && mkdir build \
     && cd build \
     && cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/opt/light-curve \
+      -DCMAKE_INSTALL_LIBDIR=lib \
       -DBUILD_SHARED_LIBS=OFF \
-      -DWITH_GFLAGS=ON \
+      -DWITH_PKGCONFIG=ON \
+      -DWITH_GFLAGS=OFF \
       -DWITH_GTEST=OFF \
     && make -j$(nproc) \
     && make install
@@ -39,7 +27,7 @@ RUN tar -xzvf eigen-${EIGEN_VERSION}.tar.gz \
     && cd eigen-${EIGEN_VERSION} \
     && mkdir build \
     && cd build \
-    && cmake .. \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=/opt/light-curve \
     && make -j$(nproc) \
     && make install
 
@@ -48,12 +36,15 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
     && mkdir build \
     && cd build \
     && cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/opt/light-curve \
+      -DCMAKE_INSTALL_LIBDIR=lib \
       -DCUDA=OFF \
       -DLAPACK=OFF \
       -DEIGENSPARSE=OFF \
       -DSUITESPARSE=OFF \
       -DCXSPARSE=OFF \
       -DMINIGLOG=OFF \
+      -DGFLAGS=OFF \
       -DSCHUR_SPECIALIZATIONS=OFF \
       -DBUILD_SHARED_LIBS=OFF \
       -DEXPORT_BUILD_DIR=OFF \
@@ -61,4 +52,8 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
       -DBUILD_DOCUMENTATION=OFF \
       -DBUILD_EXAMPLES=OFF \
     && make -j$(nproc) \
-    && make install \
+    && make install
+
+COPY files/ceres.pc.tmpl /tmp/ceres.pc.tmpl
+RUN mkdir -p /opt/light-curve/lib/pkgconfig \
+    && sed "s/\$CERES_VERSION/${CERES_VERSION}/" /tmp/ceres.pc.tmpl > /opt/light-curve/lib/pkgconfig/ceres.pc
