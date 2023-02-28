@@ -9,9 +9,9 @@ ADD https://fftw.org/fftw-${FFTW_VERSION}.tar.gz /fftw-${FFTW_VERSION}.tar.gz
 
 RUN tar -xzvf fftw-${FFTW_VERSION}.tar.gz \
     && cd fftw-${FFTW_VERSION} \
-    && ./configure --disable-doc --disable-shared --with-pic --enable-static --enable-single ${FFTW_SINGLE_CONF_FLAGS} \
+    && ./configure --prefix=/opt/light-curve --disable-doc --disable-shared --with-pic --enable-static --enable-single ${FFTW_SINGLE_CONF_FLAGS} \
     && make -j$(nproc) \
     && make install \
-    && ./configure --disable-doc --disable-shared --with-pic --enable-static ${FFTW_DOUBLE_CONF_FLAGS} \
+    && ./configure --prefix=/opt/light-curve --disable-doc --disable-shared --with-pic --enable-static ${FFTW_DOUBLE_CONF_FLAGS} \
     && make -j$(nproc) \
     && make install

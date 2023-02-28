@@ -1,9 +1,14 @@
 ARG ARCH
 FROM quay.io/pypa/manylinux2014_${ARCH}
 
+# Set env variables
 # Fixes OOM problems with git in Qemu
 ENV CARGO_NET_GIT_FETCH_WITH_CLI="true"
 ENV PATH="${PATH}:/root/.cargo/bin"
+# First is for glog and ceres, second is for eigen
+ENV PKG_CONFIG_PATH=/opt/light-curve/lib/pkgconfig:/opt/light-curve/share/pkgconfig:${PKG_CONFIG_PATH}
+# Helps with linking to FFTW
+ENV CARGO_BUILD_RUSTFLAGS="-C link-arg=-L/opt/light-curve/lib ${CARGO_BUILD_RUSTFLAGS}"
 
 # Install useful dependencies
 RUN yum install -y openssl-devel
@@ -11,9 +16,6 @@ RUN yum install -y openssl-devel
 # Install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y \
     && cargo install light-curve-feature || echo "crates.io updated"
-
-# First is for glog and ceres, second is for eigen
-ENV PKG_CONFIG_PATH=/opt/light-curve/lib/pkgconfig:/opt/light-curve/share/pkgconfig:${PKG_CONFIG_PATH}
 
 # Add Ceres and its dependencies
 COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /opt/light-curve /opt/light-curve
@@ -24,6 +26,8 @@ COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:gsl /usr/local/
 COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:gsl /usr/local/include/gsl /usr/local/include/gsl
 
 # Add FFTW
-COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:fftw /usr/local/lib/libfftw* /usr/local/lib/
-COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:fftw /usr/local/lib/pkgconfig/fftw* /usr/local/lib/pkgconfig/
-COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:fftw /usr/local/include/fftw* /usr/local/include/
+COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:fftw /opt/light-curve /opt/light-curve
+
+# Update ldconfig
+RUN echo "/opt/light-curve/lib" > /etc/ld.so.conf.d/light-curve.conf \
+    && ldconfig
