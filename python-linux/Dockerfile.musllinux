@@ -18,7 +18,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y \
     && cargo install light-curve-feature || echo "crates.io updated"
 
 # Add Ceres and its dependencies
-COPY --from=ghcr.io/light-curve/base-docker-images/manylinux2014:ceres /opt/light-curve /opt/light-curve
+COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:ceres /opt/light-curve /opt/light-curve
 
 # Add FFTW
 COPY --from=ghcr.io/light-curve/base-docker-images/musllinux_1_1:fftw /opt/light-curve /opt/light-curve
