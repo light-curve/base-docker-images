@@ -31,7 +31,7 @@ jobs:
             platform: musllinux
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: all
       - uses: actions/checkout@v3
@@ -73,7 +73,7 @@ jobs:
             platform: musllinux
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: all
       - uses: actions/checkout@v3
@@ -111,7 +111,7 @@ jobs:
         platform: ["manylinux"]
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: all
       - uses: actions/checkout@v3
@@ -154,7 +154,7 @@ jobs:
             platform: musllinux
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: all
       - uses: actions/checkout@v3
