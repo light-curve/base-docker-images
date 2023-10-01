@@ -34,7 +34,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -51,7 +51,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -76,7 +76,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -93,7 +93,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -114,7 +114,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -131,7 +131,7 @@ jobs:
       matrix:
         platform: [ "manylinux" ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -157,7 +157,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -174,7 +174,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
