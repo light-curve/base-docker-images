@@ -3,7 +3,7 @@ FROM ${BASE_IMAGE}
 
 ARG GLOG_VERSION="0.6.0"
 ARG EIGEN_VERSION="3.4.0"
-ARG CERES_VERSION="2.1.0"
+ARG CERES_VERSION="2.2.0"
 
 ADD https://github.com/google/glog/archive/refs/tags/v${GLOG_VERSION}.tar.gz /glog-${GLOG_VERSION}.tar.gz
 ADD https://gitlab.com/libeigen/eigen/-/archive/${EIGEN_VERSION}/eigen-${EIGEN_VERSION}.tar.gz /eigen-${EIGEN_VERSION}.tar.gz
@@ -20,6 +20,7 @@ RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
       -DWITH_PKGCONFIG=ON \
       -DWITH_GFLAGS=OFF \
       -DWITH_GTEST=OFF \
+      -DWith_UNWIND=OFF \
     && make -j$(nproc) \
     && make install
 
@@ -40,9 +41,9 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
       -DCMAKE_INSTALL_LIBDIR=lib \
       -DCUDA=OFF \
       -DLAPACK=OFF \
-      -DEIGENSPARSE=OFF \
+      -DEIGENSPARSE=ON \
       -DSUITESPARSE=OFF \
-      -DCXSPARSE=OFF \
+      -DEIGENMETIS=OFF \
       -DMINIGLOG=OFF \
       -DGFLAGS=OFF \
       -DSCHUR_SPECIALIZATIONS=OFF \
