@@ -36,9 +36,9 @@ jobs:
           platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -57,9 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -86,9 +86,9 @@ jobs:
           platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -107,9 +107,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -132,9 +132,9 @@ jobs:
           platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -153,9 +153,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -183,9 +183,9 @@ jobs:
           platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
@@ -204,9 +204,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-          with:
-            python-version: '3.x'
-            cache: 'pip'
+        with:
+          python-version: '3.x'
+          cache: 'pip'
       - name: Login to registry
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
