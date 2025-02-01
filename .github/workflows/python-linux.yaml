@@ -6,6 +6,7 @@ on:
       - master
   schedule:
     - cron: '38 08 13 * *'
+  workflow_dispatch:
 
 
 concurrency:
