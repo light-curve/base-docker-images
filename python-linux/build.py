@@ -189,12 +189,6 @@ ARCHS = {
         fftw_single_conf_flags='--enable-sse --enable-sse2',
         fftw_double_conf_flags='--enable-sse2',
     ),
-    'ppc64le': Arch(
-        docker_platform="linux/ppc64le",
-        # --enable-vsx doesn't really help for doubles and makes things worse for floats
-        fftw_single_conf_flags='--enable-altivec',
-        fftw_double_conf_flags='',
-    ),
     'x86_64': Arch(
         docker_platform="linux/amd64",
         fftw_single_conf_flags='--enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-avx-128-fma',
@@ -212,11 +206,10 @@ class Platform:
 PLATFORMS = {
     'manylinux': Platform(
         version="2014",
-        archs=["aarch64", "ppc64le", "x86_64"],
+        archs=["aarch64", "x86_64"],
     ),
     'musllinux': Platform(
         version="_1_1",
-        # rustup cannot install the Rust toolchain for PPC64le and MUSL
         archs=["aarch64", "x86_64"],
     ),
 }
