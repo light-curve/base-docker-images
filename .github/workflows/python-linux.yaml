@@ -130,19 +130,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # We don't need it for MUSL
         include:
           - os: ubuntu-24.04-arm
             arch: aarch64
             platform: manylinux
-          - os: ubuntu-24.04-arm
-            arch: aarch64
-            platform: musllinux
           - os: ubuntu-24.04
             arch: x86_64
             platform: manylinux
-          - os: ubuntu-24.04
-            arch: x86_64
-            platform: musllinux
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
