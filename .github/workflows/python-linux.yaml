@@ -20,21 +20,24 @@ defaults:
 jobs:
   ceres:
     name: Build Ceres Solver library
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        arch: [ "aarch64", "ppc64le", "x86_64" ]
-        platform: [ "manylinux", "musllinux" ]
-        exclude:
-          # No Rust toolchain
-          - arch: ppc64le
+        include:
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: manylinux
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: musllinux
+          - os: ubuntu-24.04
+            arch: x86_64
+            platform: manylinux
+          - os: ubuntu-24.04
+            arch: x86_64
             platform: musllinux
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -70,21 +73,24 @@ jobs:
 
   fftw:
     name: Build FFTW library
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        arch: ["aarch64", "ppc64le", "x86_64"]
-        platform: ["manylinux", "musllinux"]
-        exclude:
-          # No Rust toolchain
-          - arch: ppc64le
+        include:
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: manylinux
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: musllinux
+          - os: ubuntu-24.04
+            arch: x86_64
+            platform: manylinux
+          - os: ubuntu-24.04
+            arch: x86_64
             platform: musllinux
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -120,17 +126,24 @@ jobs:
 
   gsl:
     name: Build GSL library
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        arch: ["aarch64", "ppc64le", "x86_64"]
-        platform: ["manylinux"]
+        include:
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: manylinux
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: musllinux
+          - os: ubuntu-24.04
+            arch: x86_64
+            platform: manylinux
+          - os: ubuntu-24.04
+            arch: x86_64
+            platform: musllinux
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -167,21 +180,24 @@ jobs:
   latest:
     needs: [ ceres-manifest, fftw-manifest, gsl-manifest ]
     name: Build base images
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        arch: [ "aarch64", "ppc64le", "x86_64" ]
-        platform: [ "manylinux", "musllinux" ]
-        exclude:
-          # No Rust toolchain
-          - arch: ppc64le
+        include:
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: manylinux
+          - os: ubuntu-24.04-arm
+            arch: aarch64
+            platform: musllinux
+          - os: ubuntu-24.04
+            arch: x86_64
+            platform: manylinux
+          - os: ubuntu-24.04
+            arch: x86_64
             platform: musllinux
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
