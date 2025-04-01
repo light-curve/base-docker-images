@@ -209,7 +209,7 @@ PLATFORMS = {
         archs=["aarch64", "x86_64"],
     ),
     'musllinux': Platform(
-        version="_1_1",
+        version="_1_2",
         archs=["aarch64", "x86_64"],
     ),
 }
