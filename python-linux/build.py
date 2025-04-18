@@ -26,6 +26,8 @@ def echo_and_call(cmd_args, *args, **kwargs):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--platform", required=True, choices=list(PLATFORMS))
+    parser.add_argument("--no-push", action="store_false", dest="push",
+                        help="Don't push the image after building it, for debugging purposes")
 
     subparsers = parser.add_subparsers(title="image", required=True, dest="image")
 
@@ -70,7 +72,7 @@ def pypa_image_tag(platform, arch):
     return tag
 
 
-def build(args, *, dockerfile, tag, extra_cmd_args):
+def build(args, *, dockerfile, tag, extra_cmd_args, push: bool):
     arch_name, arch = args.arch, ARCHS[args.arch]
     image = image_with_arch_and_tag(args.platform, arch_name, tag)
     echo_and_call(
@@ -84,7 +86,7 @@ def build(args, *, dockerfile, tag, extra_cmd_args):
             image,
             "--file",
             dockerfile,
-            "--push",
+            "--output=type=registry" if push else "--output=type=docker",
             ".",
         ] + extra_cmd_args
     )
@@ -100,6 +102,7 @@ def ceres(args):
             "--build-arg",
             f"BASE_IMAGE={pypa_image(args.platform, arch_name)}",
         ],
+        push=args.push,
     )
 
 
@@ -117,6 +120,7 @@ def fftw(args):
             "--build-arg",
             f"FFTW_DOCKER_CONF_FLAFS={arch.fftw_double_conf_flags}",
         ],
+        push=args.push,
     )
 
 
@@ -132,6 +136,7 @@ def gsl(args):
             "--build-arg",
             f"ARCH={arch_name}",
         ],
+        push=args.push,
     )
 
 
@@ -144,7 +149,8 @@ def latest(args):
         extra_cmd_args=[
             "--build-arg",
             f"ARCH={arch_name}",
-        ]
+        ],
+        push=args.push,
     )
 
 
