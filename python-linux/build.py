@@ -166,14 +166,15 @@ def manifest(args):
             manifest_image,
         ] + amends
     )
-    echo_and_call(
-        [
-            "docker",
-            "manifest",
-            "push",
-            manifest_image,
-        ]
-    )
+    if args.push:
+        echo_and_call(
+            [
+                "docker",
+                "manifest",
+                "push",
+                manifest_image,
+            ]
+        )
 
 
 @dataclasses.dataclass(kw_only=True)
