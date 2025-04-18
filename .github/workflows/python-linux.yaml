@@ -49,7 +49,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} ceres --arch=${{ matrix.arch }} ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} ceres --arch=${{ matrix.arch }}
 
   ceres-manifest:
     needs: [ ceres ]
@@ -71,7 +71,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=ceres ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=ceres
 
   fftw:
     name: Build FFTW library
@@ -104,7 +104,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }} ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }}
 
   fftw-manifest:
     needs: [ fftw ]
@@ -126,7 +126,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=fftw ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=fftw
 
   gsl:
     name: Build GSL library
@@ -154,7 +154,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} gsl --arch=${{ matrix.arch }} ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} gsl --arch=${{ matrix.arch }}
 
   gsl-manifest:
     needs: [ gsl ]
@@ -176,7 +176,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=gsl ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=gsl
 
   latest:
     needs: [ ceres-manifest, fftw-manifest, gsl-manifest ]
@@ -210,7 +210,7 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} latest --arch=${{ matrix.arch }} ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} latest --arch=${{ matrix.arch }}
 
   latest-manifest:
     needs: [ latest ]
@@ -232,4 +232,4 @@ jobs:
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=latest ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=latest
