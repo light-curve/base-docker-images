@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - master
+  pull_request:
   schedule:
     - cron: '38 08 13 * *'
   workflow_dispatch:
-
 
 concurrency:
   group: "python-linux"
@@ -44,11 +44,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} ceres --arch=${{ matrix.arch }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} ceres --arch=${{ matrix.arch }}
 
   ceres-manifest:
     needs: [ ceres ]
@@ -65,11 +66,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=ceres
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=ceres
 
   fftw:
     name: Build FFTW library
@@ -97,11 +99,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }}
 
   fftw-manifest:
     needs: [ fftw ]
@@ -118,11 +121,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=fftw
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=fftw
 
   gsl:
     name: Build GSL library
@@ -145,11 +149,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} gsl --arch=${{ matrix.arch }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} gsl --arch=${{ matrix.arch }}
 
   gsl-manifest:
     needs: [ gsl ]
@@ -166,11 +171,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=gsl
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=gsl
 
   latest:
     needs: [ ceres-manifest, fftw-manifest, gsl-manifest ]
@@ -199,11 +205,12 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Build and push
-        run: ./build.py --platform=${{ matrix.platform }} latest --arch=${{ matrix.arch }}
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} latest --arch=${{ matrix.arch }}
 
   latest-manifest:
     needs: [ latest ]
@@ -220,8 +227,9 @@ jobs:
           python-version: '3.x'
           cache: 'pip'
       - name: Login to registry
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Install deps
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
-        run: ./build.py --platform=${{ matrix.platform }} manifest --tag=latest
+        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=latest
