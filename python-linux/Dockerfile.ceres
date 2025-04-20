@@ -21,6 +21,7 @@ RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
       -DWITH_GFLAGS=OFF \
       -DWITH_GTEST=OFF \
       -DWITH_UNWIND=OFF \
+      -DCMAKE_CXX_STANDARD=14 \
     && make -j$(nproc) \
     && make install
 
