@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.ref == 'refs/heads/master' && 'python-linux-master' || github.workflow }}
+  group: ${{ github.ref == 'refs/heads/master' && 'python-linux-master' || github.run_id }}
   cancel-in-progress: ${{ github.ref == 'refs/heads/master' }}
 
 defaults:
