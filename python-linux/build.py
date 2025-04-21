@@ -39,6 +39,7 @@ def parse_args():
     manifest_image = subparsers.add_parser("manifest")
     manifest_image.set_defaults(func=manifest)
     manifest_image.add_argument("--tag", required=True, choices=list(TAGS))
+    manifest_image.add_argument("--arch", nargs="+", choices=list(ARCHS), default=list(ARCHS))
 
     return parser.parse_args()
 
@@ -156,7 +157,7 @@ def latest(args):
 
 def manifest(args):
     manifest_image = multiarch_image_with_tag(args.platform, args.tag)
-    arch_images = [image_with_arch_and_tag(args.platform, arch, args.tag) for arch in PLATFORMS[args.platform].archs]
+    arch_images = [image_with_arch_and_tag(args.platform, arch, args.tag) for arch in args.arch]
     amends = list(chain.from_iterable(zip(repeat("--amend"), arch_images)))
     echo_and_call(
         [
