@@ -233,3 +233,14 @@ jobs:
         run: python3 -mpip install -r requirements.txt
       - name: Create and push
         run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=latest
+
+  triiger-light-curve-python-publish:
+    needs: [ latest-manifest ]
+    name: Trigger publish.yaml workfowlo in light-curve-python repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.LIGHT_CURVE_PYTHON_TRIGGER_PUBLISH_WORKFLOW }}
+          repository: light-curve/light-curve-python
