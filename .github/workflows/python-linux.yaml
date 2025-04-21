@@ -236,6 +236,7 @@ jobs:
 
   triiger-light-curve-python-publish:
     needs: [ latest-manifest ]
+    if: ${{ github.ref == 'refs/heads/master' }}
     name: Trigger publish.yaml workfowlo in light-curve-python repo
     runs-on: ubuntu-latest
     steps:
@@ -244,3 +245,4 @@ jobs:
         with:
           token: ${{ secrets.LIGHT_CURVE_PYTHON_TRIGGER_PUBLISH_WORKFLOW }}
           repository: light-curve/light-curve-python
+          event-type: base-docker-images
