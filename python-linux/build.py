@@ -191,12 +191,11 @@ ARCHS = {
         fftw_single_conf_flags='--enable-neon',
         fftw_double_conf_flags='--enable-neon',
     ),
-    # We actually don't support it anymore
-    'i686': Arch(
-        docker_platform="linux/386",
-        fftw_single_conf_flags='--enable-sse --enable-sse2',
-        fftw_double_conf_flags='--enable-sse2',
-    ),
+    # 'i686': Arch(
+    #     docker_platform="linux/386",
+    #     fftw_single_conf_flags='--enable-sse --enable-sse2',
+    #     fftw_double_conf_flags='--enable-sse2',
+    # ),
     'x86_64': Arch(
         docker_platform="linux/amd64",
         fftw_single_conf_flags='--enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-avx-128-fma',
