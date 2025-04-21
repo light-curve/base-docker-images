@@ -1,7 +1,7 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ARG GLOG_VERSION="0.7.1"
+ARG GLOG_VERSION="0.6.0"
 ARG EIGEN_VERSION="3.4.0"
 ARG CERES_VERSION="2.2.0"
 
@@ -20,8 +20,7 @@ RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
       -DWITH_PKGCONFIG=ON \
       -DWITH_GFLAGS=OFF \
       -DWITH_GTEST=OFF \
-      -DWITH_UNWIND=OFF \
-      -DCMAKE_CXX_STANDARD=14 \
+      -DWith_UNWIND=OFF \
     && make -j$(nproc) \
     && make install
 
@@ -53,7 +52,6 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
       -DBUILD_BENCHMARKS=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       -DBUILD_EXAMPLES=OFF \
-      -DCMAKE_CXX_FLAGS="-DGLOG_USE_GLOG_EXPORT" \
     && make -j$(nproc) \
     && make install
 
