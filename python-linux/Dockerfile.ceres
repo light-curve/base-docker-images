@@ -22,7 +22,6 @@ RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
       -DWITH_GTEST=OFF \
       -DWITH_UNWIND=OFF \
       -DCMAKE_CXX_STANDARD=14 \
-      -DCMAKE_CXX_FLAGS="-DGLOG_USE_GLOG_EXPORT" \
     && make -j$(nproc) \
     && make install
 
@@ -54,6 +53,7 @@ RUN tar -xzvf ceres-solver-${CERES_VERSION}.tar.gz \
       -DBUILD_BENCHMARKS=OFF \
       -DBUILD_DOCUMENTATION=OFF \
       -DBUILD_EXAMPLES=OFF \
+      -DCMAKE_CXX_FLAGS="-DGLOG_USE_GLOG_EXPORT" \
     && make -j$(nproc) \
     && make install
 
