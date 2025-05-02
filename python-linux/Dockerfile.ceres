@@ -9,6 +9,9 @@ ADD https://github.com/google/glog/archive/refs/tags/v${GLOG_VERSION}.tar.gz /gl
 ADD https://gitlab.com/libeigen/eigen/-/archive/${EIGEN_VERSION}/eigen-${EIGEN_VERSION}.tar.gz /eigen-${EIGEN_VERSION}.tar.gz
 ADD https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz /ceres-solver-${CERES_VERSION}.tar.gz
 
+# cmake 4 cannot compile glob 0.6
+RUN pipx install cmake'<4' --force
+
 RUN tar -xzvf glog-${GLOG_VERSION}.tar.gz \
     && cd glog-${GLOG_VERSION} \
     && mkdir build \
