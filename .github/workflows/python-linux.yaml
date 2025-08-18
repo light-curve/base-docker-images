@@ -234,10 +234,10 @@ jobs:
       - name: Create and push
         run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=latest
 
-  triiger-light-curve-python-publish:
+  trigger-light-curve-python-publish:
     needs: [ latest-manifest ]
     if: ${{ github.ref == 'refs/heads/master' }}
-    name: Trigger publish.yaml workfowlo in light-curve-python repo
+    name: Trigger publish.yaml workflow in light-curve-python repo
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
