@@ -38,7 +38,7 @@ jobs:
             arch: x86_64
             platform: musllinux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -60,7 +60,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -93,7 +93,7 @@ jobs:
             arch: x86_64
             platform: musllinux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -115,7 +115,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -143,7 +143,7 @@ jobs:
             arch: x86_64
             platform: manylinux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -165,7 +165,7 @@ jobs:
       matrix:
         platform: [ "manylinux" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -199,7 +199,7 @@ jobs:
             arch: x86_64
             platform: musllinux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -221,7 +221,7 @@ jobs:
       matrix:
         platform: [ "manylinux", "musllinux" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
