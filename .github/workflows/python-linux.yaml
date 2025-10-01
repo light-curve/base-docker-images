@@ -39,7 +39,7 @@ jobs:
             platform: musllinux
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -61,7 +61,7 @@ jobs:
         platform: [ "manylinux", "musllinux" ]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -94,7 +94,7 @@ jobs:
             platform: musllinux
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -116,7 +116,7 @@ jobs:
         platform: [ "manylinux", "musllinux" ]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -144,7 +144,7 @@ jobs:
             platform: manylinux
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -166,7 +166,7 @@ jobs:
         platform: [ "manylinux" ]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -200,7 +200,7 @@ jobs:
             platform: musllinux
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -222,7 +222,7 @@ jobs:
         platform: [ "manylinux", "musllinux" ]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: 'pip'
