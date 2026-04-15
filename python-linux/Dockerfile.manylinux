@@ -7,7 +7,6 @@ ENV CARGO_NET_GIT_FETCH_WITH_CLI="true"
 ENV PATH="${PATH}:/root/.cargo/bin"
 # First is for glog and ceres, second is for eigen
 ENV PKG_CONFIG_PATH=/opt/light-curve/lib/pkgconfig:/opt/light-curve/share/pkgconfig:${PKG_CONFIG_PATH}
-ENV CARGO_BUILD_RUSTFLAGS="-C link-arg=-L/opt/light-curve/lib ${CARGO_BUILD_RUSTFLAGS}"
 
 # Install useful dependencies
 RUN yum install -y openssl-devel
