@@ -73,61 +73,6 @@ jobs:
       - name: Create and push
         run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=ceres
 
-  fftw:
-    name: Build FFTW library
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-24.04-arm
-            arch: aarch64
-            platform: manylinux
-          - os: ubuntu-24.04-arm
-            arch: aarch64
-            platform: musllinux
-          - os: ubuntu-24.04
-            arch: x86_64
-            platform: manylinux
-          - os: ubuntu-24.04
-            arch: x86_64
-            platform: musllinux
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.x'
-          cache: 'pip'
-      - name: Login to registry
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-      - name: Install deps
-        run: python3 -mpip install -r requirements.txt
-      - name: Build and push
-        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} fftw --arch=${{ matrix.arch }}
-
-  fftw-manifest:
-    needs: [ fftw ]
-    name: Bind FFTW images into a single one
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ "manylinux", "musllinux" ]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.x'
-          cache: 'pip'
-      - name: Login to registry
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-      - name: Install deps
-        run: python3 -mpip install -r requirements.txt
-      - name: Create and push
-        run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=fftw
-
   gsl:
     name: Build GSL library
     runs-on: ${{ matrix.os }}
@@ -179,7 +124,7 @@ jobs:
         run: ./build.py ${{ github.ref != 'refs/heads/master' && '--no-push' || '' }} --platform=${{ matrix.platform }} manifest --tag=gsl
 
   latest:
-    needs: [ ceres-manifest, fftw-manifest, gsl-manifest ]
+    needs: [ ceres-manifest, gsl-manifest ]
     name: Build base images
     runs-on: ${{ matrix.os }}
     strategy:
