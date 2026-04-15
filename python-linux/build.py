@@ -107,24 +107,6 @@ def ceres(args):
     )
 
 
-def fftw(args):
-    arch_name, arch = args.arch, ARCHS[args.arch]
-    build(
-        args,
-        dockerfile="Dockerfile.fftw",
-        tag="fftw",
-        extra_cmd_args=[
-            "--build-arg",
-            f"BASE_IMAGE={pypa_image(args.platform, arch_name)}",
-            "--build-arg",
-            f"FFTW_SINGLE_CONF_FLAGS={arch.fftw_single_conf_flags}",
-            "--build-arg",
-            f"FFTW_DOCKER_CONF_FLAFS={arch.fftw_double_conf_flags}",
-        ],
-        push=args.push,
-    )
-
-
 def gsl(args):
     if args.platform != "manylinux":
         raise ValueError(f"We don't need to build gsl for anything but manylinux, you specified {args.platform} instead")
@@ -181,25 +163,14 @@ def manifest(args):
 @dataclasses.dataclass(kw_only=True)
 class Arch:
     docker_platform: str
-    fftw_single_conf_flags: str = ""
-    fftw_double_conf_flags: str = ""
 
 
 ARCHS = {
     'aarch64': Arch(
         docker_platform="linux/arm64",
-        fftw_single_conf_flags='--enable-neon',
-        fftw_double_conf_flags='--enable-neon',
     ),
-    # 'i686': Arch(
-    #     docker_platform="linux/386",
-    #     fftw_single_conf_flags='--enable-sse --enable-sse2',
-    #     fftw_double_conf_flags='--enable-sse2',
-    # ),
     'x86_64': Arch(
         docker_platform="linux/amd64",
-        fftw_single_conf_flags='--enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-avx-128-fma',
-        fftw_double_conf_flags='--enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-avx-128-fma',
     ),
 }
 
@@ -222,7 +193,7 @@ PLATFORMS = {
 }
 
 
-TAGS = dict(ceres=ceres, fftw=fftw, gsl=gsl, latest=latest)
+TAGS = dict(ceres=ceres, gsl=gsl, latest=latest)
 
 
 def main():
