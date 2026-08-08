@@ -39,7 +39,7 @@ jobs:
             platform: musllinux
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -61,7 +61,7 @@ jobs:
         platform: [ "manylinux", "musllinux" ]
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -89,7 +89,7 @@ jobs:
             platform: manylinux
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -111,7 +111,7 @@ jobs:
         platform: [ "manylinux" ]
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -145,7 +145,7 @@ jobs:
             platform: musllinux
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -167,7 +167,7 @@ jobs:
         platform: [ "manylinux", "musllinux" ]
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
