@@ -11,7 +11,7 @@ from subprocess import check_call
 
 @lru_cache(maxsize=1)
 def current_cibw_images():
-    config = ConfigParser()
+    config = ConfigParser(inline_comment_prefixes=("#", ";"))
     file = importlib.resources.files('cibuildwheel.resources') / 'pinned_docker_images.cfg'
     with file.open() as fh:
         config.read_file(fh)
